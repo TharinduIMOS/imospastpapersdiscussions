@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Paper Discussion Video</title>
+    <!-- Plyr CSS -->
+    <link href="https://cdn.plyr.io/3.7.2/plyr.css" rel="stylesheet">
+    <script src="https://cdn.plyr.io/3.7.2/plyr.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <!-- Container for the page content -->
+    <div class="container mx-auto p-6 lg:p-8">
+        <!-- Page Heading -->
+        <h1 class="text-4xl font-bold text-center text-blue-600 mb-6">Past Paper Discussion 2019 Part 1 1A</h1>
+        
+        <!-- Video Embed Section -->
+        <div id="player-container" style="max-width: 1000px; margin: 0 auto;"></div>
+
+        <script>
+            (function() {
+                function initPlyrPlayer(videoId, containerId) {
+                    // Create container if it doesn’t exist
+                    if (!document.getElementById(containerId)) {
+                        console.error(`Container with id "${containerId}" not found.`);
+                        return;
+                    }
+
+                    // Add Plyr's CSS if it's not already included
+                    if (!document.querySelector('link[href="https://cdn.plyr.io/3.7.2/plyr.css"]')) {
+                        const plyrCSS = document.createElement('link');
+                        plyrCSS.rel = 'stylesheet';
+                        plyrCSS.href = 'https://cdn.plyr.io/3.7.2/plyr.css';
+                        document.head.appendChild(plyrCSS);
+                    }
+
+                    // Add Plyr's JS if it's not already included
+                    if (!document.querySelector('script[src="https://cdn.plyr.io/3.7.2/plyr.js"]')) {
+                        const plyrScript = document.createElement('script');
+                        plyrScript.src = 'https://cdn.plyr.io/3.7.2/plyr.js';
+                        document.body.appendChild(plyrScript);
+                        plyrScript.onload = () => setupPlayer(videoId, containerId);
+                    } else {
+                        setupPlayer(videoId, containerId);
+                    }
+                }
+
+                function setupPlayer(videoId, containerId) {
+                    // Create the iframe dynamically with the necessary YouTube parameters
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+                        <div class="plyr__video-embed" id="player">
+                            <iframe src="https://www.youtube.com/embed/kAtdRls34mA?rel=0&showinfo=0&modestbranding=1&enablejsapi=1&origin=*&playlist=${videoId}&loop=1&iv_load_policy=3"
+                                    allowfullscreen
+                                    allow="autoplay; encrypted-media">
+                            </iframe>
+                        </div>
+                    `;
+
+                    // Apply CSS to set iframe dimensions
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        #${containerId} .plyr__video-embed iframe {
+                            aspect-ratio: 16 / 9;
+                            width: 100%;
+                        }
+                        #${containerId} .plyr__video-embed iframe {
+                            pointer-events: none;
+                        }
+                    `;
+                    document.head.appendChild(style);
+
+                    // Initialize Plyr after iframe is added
+                    new Plyr(`#${containerId} .plyr__video-embed`, {
+                        youtube: {
+                            noCookie: true,
+                            rel: 0,           // Disable related videos
+                            showinfo: 0,      // Hide video information
+                            iv_load_policy: 3, // Disable annotations
+                            modestbranding: 1  // Hide YouTube branding
+                        }
+                    });
+                }
+
+                // Initialize the player when the document is ready
+                document.addEventListener('DOMContentLoaded', () => {
+                    initPlyrPlayer('gr89k3WwAZA', 'player-container');
+                });
+            })();
+        </script>
+    </div>
+
+</body>
+
+</html>
